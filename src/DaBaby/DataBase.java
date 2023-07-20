@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.logging.Level;
 
 
 
@@ -27,9 +27,12 @@ public class DataBase {
 				Class.forName("com.mysql.jdbc.Driver");
 				String connectionURL = "jdbc:mysql://127.0.0.1:3306/car_db?user=root&useSSL=false&autoReconnect=true";
 				con = DriverManager.getConnection(connectionURL,"root","Tamas001");
+				new loggerClass().logger.log(Level.INFO, "Sikeres csatlakozás az adatbázishoz!");
 				
 			}
 			catch (Exception e) {
+				
+				new loggerClass().logger.log(Level.SEVERE, e.getMessage());
 				
 				throw new SQLException("A csatlakozás sikertelen "+e.getMessage());
 				
@@ -73,9 +76,12 @@ public class DataBase {
 					FoFrame.beolvas(row);
 					
 				}
+				new loggerClass().logger.log(Level.INFO, "A táblázat frissült.");
 				
 			}
 			catch(Exception e) {
+				
+				new loggerClass().logger.log(Level.SEVERE, e.getMessage());
 				
 				throw new SQLException("SQL adat beolvasás sikertelen "+e.getMessage());
 				
@@ -97,9 +103,11 @@ public class DataBase {
 				sql.setInt(6, car.age());
 				
 				sql.executeUpdate();
-				
+				new loggerClass().logger.log(Level.INFO, "Új elem hozzáadva az adatbázishoz: "+car.id());
 			}
 			catch (Exception e) {
+				
+				new loggerClass().logger.log(Level.SEVERE, e.getMessage());
 				
 				throw new SQLException("Adatbázis hiba az adatfelvitelnél! "+e.getMessage());
 				
@@ -116,12 +124,11 @@ public class DataBase {
 			try {
 				sql = con.prepareStatement("SELECT id from carList");
 				ResultSet rs = sql.executeQuery();
-				System.out.println("fdfedf");
 				while (rs.next()) {
 					String id = rs.getString(1).toString();
-					System.out.println(id);
+					//System.out.println(id);
 					String idSplit[] = id.split(".", 5);
-					System.out.println(Arrays.toString(idSplit));
+					//System.out.println(Arrays.toString(idSplit));
 						if (count == Integer.parseInt(idSplit[4])) {
 							count++;
 						}
@@ -139,7 +146,9 @@ public class DataBase {
 				}
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
+				new loggerClass().logger.log(Level.SEVERE, e.getMessage());
+				
 				e.printStackTrace();
 			}
 			
@@ -158,8 +167,11 @@ public class DataBase {
 				sql.executeUpdate();
 				System.out.println("Deletion complete!");
 				System.out.println(carSelected);
+				new loggerClass().logger.log(Level.INFO, "Sikeresen törölve az adatbázisból: "+carSelected);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
+				new loggerClass().logger.log(Level.SEVERE, e.getMessage());
+				
 				e.printStackTrace();
 			}
 			
@@ -187,7 +199,7 @@ public class DataBase {
 					age = res.getString(6);
 					String[] row = {id, name, brand, owner, value,age};
 					rowFinal = row;
-				
+					new loggerClass().logger.log(Level.INFO, "Keresés végrehajtva, keresett data: "+id);
 				}
 					
 				return rowFinal;

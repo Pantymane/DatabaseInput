@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,18 +28,18 @@ import javax.swing.border.EtchedBorder;
 
 public class FoFrame extends JFrame implements ActionListener{
 
-	JButton save = new JButton("Save");
-	JButton new1 = new JButton("New");
-	JButton delete = new JButton("Delete");
-	JButton exit = new JButton("Exit");
-	JButton load = new JButton("Load");
+	static JButton save = new JButton("Save");
+	static JButton new1 = new JButton("New");
+	static JButton delete = new JButton("Delete");
+	static JButton exit = new JButton("Exit");
+	static JButton load = new JButton("Load");
 	 static JTable tablex;
 	 static String[] columns = new String[] {"ID","Name","Brand","Owner","Value","Age"};
 	 static JScrollPane scrollPane = new JScrollPane();
 	 static DefaultTableModel model = new DefaultTableModel(null ,columns);
 	 static JCheckBox chckBox = new JCheckBox("");
-	JPanel panel = new JPanel();
-	JLabel label = new JLabel();
+	static JPanel panel = new JPanel();
+	static JLabel label = new JLabel();
 	JTextField text = new JTextField();
 	JTextField carName;
 	JTextField carBrand;
@@ -70,6 +71,7 @@ public class FoFrame extends JFrame implements ActionListener{
 				int valasz = JOptionPane.showOptionDialog(rootPane, "Bisztosan ki akar lépni?", "Kilépés", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, kerdes, kerdes[0]);
 				if (valasz == 0) {
 					
+					new loggerClass().logger.log(Level.INFO, "Kilépés a programból.");
 					System.exit(0);
 					
 				}
@@ -80,44 +82,44 @@ public class FoFrame extends JFrame implements ActionListener{
 		delete.setBounds(593,234,99,40);
 		delete.setBorder(null);
 		delete.setFocusable(false);
-		delete.setFont(new Font("Ink Free",Font.BOLD,30));
-		delete.setBackground(new Color(r.nextInt(1,255),r.nextInt(1,255),r.nextInt(1,255)));
+		delete.setFont(new Font("Tahoma",Font.BOLD,25));
+		delete.setBackground(Color.LIGHT_GRAY);
 		delete.setOpaque(true);
 		delete.addActionListener(this);
 		
 		load.setBounds(503, 234, 80, 40);
 		load.setBorder(null);
 		load.setFocusable(false);
-		load.setFont(new Font("Ink Free",Font.BOLD,30));
-		load.setBackground(new Color(r.nextInt(1,255),r.nextInt(1,255),r.nextInt(1,255)));
+		load.setFont(new Font("Tahoma",Font.BOLD,25));
+		load.setBackground(Color.LIGHT_GRAY);
 		load.setOpaque(true);
 		load.addActionListener(this);
 		
 		exit.setBounds(612,326,80,40);
 		exit.setBorder(null);
 		exit.setFocusable(false);
-		exit.setFont(new Font("Ink Free",Font.BOLD,30));
-		exit.setBackground(new Color(r.nextInt(1,255),r.nextInt(1,255),r.nextInt(1,255)));
+		exit.setFont(new Font("Tahoma",Font.BOLD,25));
+		exit.setBackground(Color.LIGHT_GRAY);
 		exit.setOpaque(true);
 		exit.addActionListener(this);
 		
-		save.setBounds(310, 220, 60, 30);
+		save.setBounds(290, 210, 80, 40);
 		save.setBorder(null);
 		save.setFocusable(false);
-		save.setFont(new Font("Ink Free",Font.BOLD,25));
-		save.setBackground(new Color(r.nextInt(1,255),r.nextInt(1,255),r.nextInt(1,255)));
+		save.setFont(new Font("Tahoma",Font.BOLD,25));
+		save.setBackground(Color.LIGHT_GRAY);
 		save.setOpaque(true);
 		save.addActionListener(this);
 		
 		new1.setBounds(22, 235, 67, 39);
 		new1.setBorder(null);
 		new1.setFocusable(false);
-		new1.setFont(new Font("Ink Free",Font.BOLD,30));
-		new1.setBackground(new Color(r.nextInt(1,255),r.nextInt(1,255),r.nextInt(1,255)));
+		new1.setFont(new Font("Tahoma",Font.BOLD,25));
+		new1.setBackground(Color.LIGHT_GRAY);
 		new1.setOpaque(true);
 		new1.addActionListener(this);
+		
 		panel.setToolTipText("Car ID:");
-	
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search:", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
 		panel.setLocation(10, 326);
 		panel.setSize(249, 46);
@@ -146,7 +148,7 @@ public class FoFrame extends JFrame implements ActionListener{
 		this.setVisible(true);
 		
 		
-		
+		colorChange();
 	}
 	
 
@@ -160,6 +162,7 @@ public class FoFrame extends JFrame implements ActionListener{
 			int valasz = JOptionPane.showOptionDialog(rootPane, "Bisztosan ki akar lépni?", "Kilépés", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, kerdes, kerdes[0]);
 			if (valasz == 0) {
 				
+				new loggerClass().logger.log(Level.INFO, "Kilépés a programból.");
 				System.exit(0);
 				
 			}
@@ -330,4 +333,11 @@ public class FoFrame extends JFrame implements ActionListener{
 		scrollPane.setViewportView(tablex);
 		
 	}
+	
+	public static void colorChange() {
+		
+		new timerClass().run();
+		
+	}
+	
 }
