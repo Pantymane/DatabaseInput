@@ -1,8 +1,0 @@
-júl. 20, 2023 11:58:48 DU. DaBaby.Main main
-INFO: Program elindult, logCleanUp megkezdése.
-júl. 20, 2023 11:58:48 DU. DaBaby.DataBase csatlakozas
-INFO: Sikeres csatlakozás az adatbázishoz!
-júl. 20, 2023 11:58:48 DU. DaBaby.DataBase CarBeolvasas
-INFO: A táblázat frissült.
-júl. 20, 2023 11:58:51 DU. DaBaby.FoFrame$1 windowClosing
-INFO: Kilépés a programból.

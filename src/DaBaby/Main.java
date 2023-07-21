@@ -6,6 +6,10 @@ import java.util.logging.Level;
 
 public class Main {
 
+	static Thread thread2 = new Thread(threadClass.graphicsPanel);
+	static threadClass thread = new threadClass();
+	static Thread thread1 = new Thread(thread);
+	
 	public static void main(String[] args) throws SQLException, IOException {
 		
 		loggerClass.LogDirectoryCreate();
@@ -15,7 +19,12 @@ public class Main {
 		
 		DataBase.csatlakozas();
 		DataBase.CarBeolvasas();
-		FoFrame frame = new FoFrame();
+		
+		thread2.setPriority(2);
+		thread2.start();
+		
+		thread1.setPriority(1);
+		thread1.start();
 		
 	}
 

@@ -8,52 +8,72 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.util.Random;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.Timer;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.JCheckBox;
-import javax.swing.border.EtchedBorder;
 
-public class FoFrame extends JFrame implements ActionListener{
 
+public class threadClass implements Runnable{
+
+	static int x = 1200;
+	static int y = 675;
+	static JTable tablex;
+	static String[] columns = new String[] {"ID","Name","Brand","Owner","Value","Age"};
+	static DefaultTableModel model = new DefaultTableModel(null ,columns);
+	static JScrollPane scrollPane = new JScrollPane();
+	static myGraphicsPanel graphicsPanel;
 	static JButton save = new JButton("Save");
 	static JButton new1 = new JButton("New");
 	static JButton delete = new JButton("Delete");
 	static JButton exit = new JButton("Exit");
 	static JButton load = new JButton("Load");
-	 static JTable tablex;
-	 static String[] columns = new String[] {"ID","Name","Brand","Owner","Value","Age"};
-	 static JScrollPane scrollPane = new JScrollPane();
-	 static DefaultTableModel model = new DefaultTableModel(null ,columns);
+	 
+	public static void beolvas(String[] row) {
+		
+		
+		model.addRow(row);
+		
+		
+	tablex = new JTable(model);
+	scrollPane.setViewportView(tablex);
+	
+}
+	
+	@Override
+	public void run() {
+		
+	
+	
+	
+class FoFrame extends JFrame implements ActionListener{
+	
 	 static JCheckBox chckBox = new JCheckBox("");
-	 static myGraphicsPanel graphicsPanel;
 	 static JLayeredPane userSide = new JLayeredPane();
 	static JPanel panel = new JPanel();
 	JTextField text = new JTextField();
-	JTextField carName;
-	JTextField carBrand;
-	JTextField carOwner;
-	JTextField carValue;
-	JTextField carAge;
+	JTextField 	carName = new JTextField("Car Name");
+	JTextField carBrand = new JTextField("Car Brand");
+	JTextField carOwner = new JTextField("Car Owner");
+	JTextField carValue = new JTextField("Car Value");
+	JTextField carAge = new JTextField("Car Age");
 	JFrame newFrame;
-
-	Timer timer;
 	
 	public FoFrame() {
 		
 		this.setTitle("Car information");
-		this.setSize(1200,675);
+		this.setSize(x,y);
 		this.setLocationRelativeTo(null);
 		this.setBackground(Color.white);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -76,6 +96,27 @@ public class FoFrame extends JFrame implements ActionListener{
 			}
 			
 		});
+		
+		carName.setBounds(500, 320, 200, 30);
+		carName.setOpaque(false);
+		carName.setForeground(Color.white);
+		
+		carBrand.setBounds(500, 370, 200, 30);
+		carBrand.setOpaque(false);
+		carBrand.setForeground(Color.white);
+		
+		carOwner.setBounds(500, 420, 200, 30);
+		carOwner.setOpaque(false);
+		carOwner.setForeground(Color.white);
+		
+		carValue.setBounds(500, 470, 200, 30);
+		carValue.setOpaque(false);
+		carValue.setForeground(Color.white);
+		
+		carAge.setBounds(500, 520, 200, 30);
+		carAge.setOpaque(false);
+		carAge.setForeground(Color.white);
+		
 		delete.setBounds(1050, 234, 100, 40);
 		delete.setBorder(null);
 		delete.setFocusable(false);
@@ -104,13 +145,13 @@ public class FoFrame extends JFrame implements ActionListener{
 		exit.setOpaque(false);
 		exit.addActionListener(this);
 		
-		save.setBounds(290, 210, 80, 40);
+		save.setBounds(560, 270, 80, 40);
 		save.setBorder(null);
 		save.setFocusable(false);
 		save.setFont(new Font("Tahoma",Font.BOLD,25));
 		save.setForeground(Color.WHITE);
 		save.setBackground(new Color(0, 0, 0, 80));
-		save.setOpaque(true);
+		save.setOpaque(false);
 		save.addActionListener(this);
 		
 		new1.setBounds(22, 450, 67, 39);
@@ -135,6 +176,7 @@ public class FoFrame extends JFrame implements ActionListener{
 		text.setBounds(22, 21, 173, 20);
 		text.setEditable(false);
 		text.setOpaque(false);
+		text.setForeground(Color.white);
 		
 		chckBox.setBounds(210, 18, 21, 23);
 		chckBox.addActionListener(this);
@@ -149,34 +191,31 @@ public class FoFrame extends JFrame implements ActionListener{
 		panel.setBackground(new Color(0, 0, 0, 80));
 		panel.setOpaque(false);
 		
+		//userSide.add(new animatedButtons());
+		
 		userSide.setBounds(0, 0, 1186, 638);
-		userSide.setPreferredSize(new Dimension(1200, 675));
+		userSide.setPreferredSize(new Dimension(x, y));
 		userSide.setLayout(null);
 		userSide.setBackground(new Color(0, 0, 0, 80));
 		//userSide.settr
 		userSide.setVisible(true);
 		
 		graphicsPanel = new myGraphicsPanel();
-		Thread thread2 = new Thread(graphicsPanel);
-		thread2.setPriority(1);
-		thread2.start();
 		
 		graphicsPanel.setBounds(0, 0, 1186, 638);
-		userSide.add(FoFrame.new1);
-		userSide.add(FoFrame.delete);
-		userSide.add(FoFrame.load);
-		userSide.add(FoFrame.exit);
-		userSide.add(FoFrame.scrollPane);
+		userSide.add(new1);
+		userSide.add(delete);
+		userSide.add(load);
+		userSide.add(exit);
+		userSide.add(scrollPane);
 		userSide.add(FoFrame.panel);
 		getContentPane().setLayout(null);
 		getContentPane().add(userSide);
 		getContentPane().add(graphicsPanel);
 		//this.setLayeredPane(userSide);
 		
-		
 		this.setVisible(true);
 		
-		colorChange();
 	}
 	
 
@@ -198,34 +237,40 @@ public class FoFrame extends JFrame implements ActionListener{
 		}
 		else if (e.getSource() == new1) {
 			
-			newFrame = new JFrame("New Car");
-			
-			newFrame.setLocationRelativeTo(this);
-			newFrame.setSize(400,300);
-			newFrame.getContentPane().setLayout(null);
-			
-			carName = new JTextField("Car Name");
-			carName.setBounds(20, 20, 200, 30);
-			
-			carBrand = new JTextField("Car Brand");
-			carBrand.setBounds(20, 70, 200, 30);
-			
-			carOwner = new JTextField("Car Owner");
-			carOwner.setBounds(20, 120, 200, 30);
-			
-			carValue = new JTextField("Car Value");
-			carValue.setBounds(20, 170, 200, 30);
-			
-			carAge = new JTextField("Car Age");
-			carAge.setBounds(20, 220, 200, 30);
+			if (new1.getText() == "Cancel") {
+				
+				userSide.remove(carName);
+				userSide.remove(carBrand);
+				userSide.remove(carOwner);
+				userSide.remove(carValue);
+				userSide.remove(carAge);
+				carName.setVisible(false);
+				carBrand.setVisible(false);
+				carOwner.setVisible(false);
+				carValue.setVisible(false);
+				carAge.setVisible(false);
+				userSide.remove(save);
+				new1.setSize(67, 40);
+				new1.setText("New");
+				
+			}
+			else {
 			
 			userSide.add(carName);
 			userSide.add(carBrand);
 			userSide.add(carOwner);
 			userSide.add(carValue);
 			userSide.add(carAge);
+			carName.setVisible(true);
+			carBrand.setVisible(true);
+			carOwner.setVisible(true);
+			carValue.setVisible(true);
+			carAge.setVisible(true);
 			userSide.add(save);
+			new1.setSize(100, 40);
+			new1.setText("Cancel");
 		
+			}
 		}
 		else if (e.getSource() == save) {
 			
@@ -250,6 +295,10 @@ public class FoFrame extends JFrame implements ActionListener{
 				DataBase.ujCar(newCar);
 				model = new DefaultTableModel(null, columns);
 				DataBase.CarBeolvasas();
+				tablex.setBackground(new Color(0, 0, 0, 80));
+				tablex.setForeground(Color.WHITE);
+				tablex.setOpaque(false);
+				this.add(graphicsPanel);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -272,7 +321,6 @@ public class FoFrame extends JFrame implements ActionListener{
 			if (!chckBox.isSelected()) {
 			
 			try {
-				System.out.println("olvas");
 				DataBase.CarBeolvasas();
 				tablex.setBackground(new Color(0, 0, 0, 80));
 				tablex.setForeground(Color.WHITE);
@@ -286,8 +334,11 @@ public class FoFrame extends JFrame implements ActionListener{
 			else {
 				
 				try {
+					Optional<String[]> acquired= DataBase.search(text.getText());
 					
-					model.addRow(DataBase.search(text.getText()));
+					String[] opcional = {"Nincs ilyen ID-val rendelkező adat!","Null","Null","Null","Null","Null"};
+					
+					model.addRow(acquired.orElse(opcional));
 					tablex.setModel(model);
 					tablex.setBackground(new Color(0, 0, 0, 80));
 					tablex.setForeground(Color.WHITE);
@@ -358,21 +409,13 @@ public class FoFrame extends JFrame implements ActionListener{
 
 	}
 	
-	public static void beolvas(String[] row) {
-		
-		
-			model.addRow(row);
-			
-			
-		tablex = new JTable(model);
-		scrollPane.setViewportView(tablex);
-		
-	}
 	
-	public static void colorChange() {
-		
-		new timerClass().run();
-		
-	}
 	
+}
+
+	FoFrame frame = new FoFrame();
+
+
+}
+
 }

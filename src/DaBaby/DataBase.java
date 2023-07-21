@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.logging.Level;
 
 
@@ -73,7 +74,7 @@ public class DataBase {
 					value = res.getString(5);
 					age = res.getString(6);
 					String[] row = {id, name, brand, owner, value,age};
-					FoFrame.beolvas(row);
+					threadClass.beolvas(row);
 					
 				}
 				new loggerClass().logger.log(Level.INFO, "A táblázat frissült.");
@@ -162,7 +163,7 @@ public class DataBase {
 			
 			try {
 				sql = con.prepareStatement("DELETE FROM carlist WHERE id = ?");
-				String carSelected = (String) (FoFrame.tablex.getValueAt(FoFrame.tablex.getSelectedRow(), 0));
+				String carSelected = (String) (threadClass.tablex.getValueAt(threadClass.tablex.getSelectedRow(), 0));
 				sql.setString(1, carSelected);
 				sql.executeUpdate();
 				System.out.println("Deletion complete!");
@@ -179,8 +180,10 @@ public class DataBase {
 			
 		}
 		
-		public static String[] search(String HDHD) throws SQLException {
+		public static Optional<String[]> search(String HDHD) throws SQLException {
 				
+			
+			
 				sql = con.prepareStatement("SELECT * from carlist WHERE id = ?");
 				System.out.println(HDHD);
 				sql.setString(1, HDHD);
@@ -202,7 +205,7 @@ public class DataBase {
 					new loggerClass().logger.log(Level.INFO, "Keresés végrehajtva, keresett data: "+id);
 				}
 					
-				return rowFinal;
+				return Optional.ofNullable(rowFinal);
 					
 			
 		
