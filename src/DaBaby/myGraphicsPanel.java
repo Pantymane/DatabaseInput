@@ -7,9 +7,12 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.sql.rowset.serial.SQLOutputImpl;
 import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.Timer;
+
+import javafx.scene.media.MediaPlayer;
 	
 	public class myGraphicsPanel extends JLayeredPane implements ActionListener,Runnable{
 
@@ -39,6 +42,18 @@ import javax.swing.Timer;
 					
 				}
 				
+				int fullTime = (int) musicClass.media.getDuration().toSeconds();
+				int playTime = (int) musicClass.mediaPlayer.getCurrentTime().toSeconds();
+				
+				if (fullTime == playTime && fullTime >= 50) {
+					
+					
+					musicClass.nextMedia();
+					
+				}
+					
+				//System.out.println(fullTime);
+				//System.out.println(playTime);
 				
 				Graphics2D g2D = (Graphics2D) g;
 				
