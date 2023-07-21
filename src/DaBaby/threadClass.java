@@ -20,8 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -39,6 +41,7 @@ public class threadClass implements Runnable{
 	static JButton delete = new JButton("Delete");
 	static JButton exit = new JButton("Exit");
 	static JButton load = new JButton("Load");
+	static JButton music = new JButton("Music");
 	 
 	public static void beolvas(String[] row) {
 		
@@ -154,7 +157,7 @@ class FoFrame extends JFrame implements ActionListener{
 		save.setOpaque(false);
 		save.addActionListener(this);
 		
-		new1.setBounds(22, 450, 67, 39);
+		new1.setBounds(22, 450, 67, 40);
 		new1.setBorder(null);
 		new1.setFocusable(false);
 		new1.setFont(new Font("Tahoma",Font.BOLD,25));
@@ -162,6 +165,15 @@ class FoFrame extends JFrame implements ActionListener{
 		new1.setBackground(new Color(0, 0, 0, 80));
 		new1.setOpaque(false);
 		new1.addActionListener(this);
+		
+		music.setBounds(1050, 500, 100, 40);
+		music.setBorder(null);
+		music.setFocusable(false);
+		music.setFont(new Font("Tahoma",Font.BOLD,25));
+		music.setForeground(Color.WHITE);
+		music.setBackground(new Color(0, 0, 0, 80));
+		music.setOpaque(false);
+		music.addActionListener(this);
 		
 		tablex.setBackground(new Color(0, 0, 0, 80));
 		tablex.setForeground(Color.WHITE);
@@ -207,12 +219,16 @@ class FoFrame extends JFrame implements ActionListener{
 		userSide.add(delete);
 		userSide.add(load);
 		userSide.add(exit);
+		userSide.add(music);
 		userSide.add(scrollPane);
 		userSide.add(FoFrame.panel);
 		getContentPane().setLayout(null);
 		getContentPane().add(userSide);
 		getContentPane().add(graphicsPanel);
 		//this.setLayeredPane(userSide);
+		
+		new musicClass().initialize();
+		musicClass.playMedia();
 		
 		this.setVisible(true);
 		
@@ -237,7 +253,14 @@ class FoFrame extends JFrame implements ActionListener{
 		}
 		else if (e.getSource() == new1) {
 			
-			if (new1.getText() == "Cancel") {
+			if (music.getText() == "Back") {
+				
+				userSide.remove(musicClass.pane);
+				music.setText("Music");
+				
+			}
+			
+			if (new1.getText() == "Back") {
 				
 				userSide.remove(carName);
 				userSide.remove(carBrand);
@@ -268,7 +291,7 @@ class FoFrame extends JFrame implements ActionListener{
 			carAge.setVisible(true);
 			userSide.add(save);
 			new1.setSize(100, 40);
-			new1.setText("Cancel");
+			new1.setText("Back");
 		
 			}
 		}
@@ -384,6 +407,43 @@ class FoFrame extends JFrame implements ActionListener{
 				
 			}
 		}
+		else if (e.getSource() == music) {
+			
+			if (new1.getText() == "Back") {
+				
+				userSide.remove(carName);
+				userSide.remove(carBrand);
+				userSide.remove(carOwner);
+				userSide.remove(carValue);
+				userSide.remove(carAge);
+				carName.setVisible(false);
+				carBrand.setVisible(false);
+				carOwner.setVisible(false);
+				carValue.setVisible(false);
+				carAge.setVisible(false);
+				userSide.remove(save);
+				new1.setSize(67, 40);
+				new1.setText("New");
+				
+			}
+			
+			if (music.getText() == "Music") {
+			
+			musicClass.musicPanelBuilder();
+			userSide.add(musicClass.pane);
+			music.setText("Back");
+			
+		
+			}
+			else {
+				
+				userSide.remove(musicClass.pane);
+				music.setText("Music");
+				
+			}
+		
+		
+	}
 		
 	}
 	
