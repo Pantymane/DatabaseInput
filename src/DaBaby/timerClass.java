@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 import javax.swing.Timer;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 public class timerClass implements Runnable, ActionListener{

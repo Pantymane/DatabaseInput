@@ -1,20 +1,19 @@
 package DaBaby;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -38,8 +37,9 @@ public class FoFrame extends JFrame implements ActionListener{
 	 static JScrollPane scrollPane = new JScrollPane();
 	 static DefaultTableModel model = new DefaultTableModel(null ,columns);
 	 static JCheckBox chckBox = new JCheckBox("");
+	 static myGraphicsPanel graphicsPanel;
+	 static JLayeredPane userSide = new JLayeredPane();
 	static JPanel panel = new JPanel();
-	static JLabel label = new JLabel();
 	JTextField text = new JTextField();
 	JTextField carName;
 	JTextField carBrand;
@@ -47,20 +47,18 @@ public class FoFrame extends JFrame implements ActionListener{
 	JTextField carValue;
 	JTextField carAge;
 	JFrame newFrame;
-	
-	Random r = new Random();
+
 	Timer timer;
 	
 	public FoFrame() {
 		
 		this.setTitle("Car information");
-		this.setSize(728,420);
+		this.setSize(1200,675);
 		this.setLocationRelativeTo(null);
 		this.setBackground(Color.white);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setResizable(false);
 		this.setFocusable(false);
-		getContentPane().setLayout(null);
 		this.addWindowListener(new WindowAdapter() {
 			
 			@Override
@@ -78,75 +76,105 @@ public class FoFrame extends JFrame implements ActionListener{
 			}
 			
 		});
-		
-		delete.setBounds(593,234,99,40);
+		delete.setBounds(1050, 234, 100, 40);
 		delete.setBorder(null);
 		delete.setFocusable(false);
 		delete.setFont(new Font("Tahoma",Font.BOLD,25));
-		delete.setBackground(Color.LIGHT_GRAY);
-		delete.setOpaque(true);
+		delete.setForeground(Color.WHITE);
+		delete.setBackground(new Color(0, 0, 0, 80));
+		delete.setOpaque(false);
 		delete.addActionListener(this);
 		
-		load.setBounds(503, 234, 80, 40);
+		load.setBounds(950, 234, 80, 40);
 		load.setBorder(null);
 		load.setFocusable(false);
 		load.setFont(new Font("Tahoma",Font.BOLD,25));
-		load.setBackground(Color.LIGHT_GRAY);
-		load.setOpaque(true);
+		load.setForeground(Color.WHITE);
+		load.setBackground(new Color(0, 0, 0, 80));
+		load.setOpaque(false);
 		load.addActionListener(this);
 		
-		exit.setBounds(612,326,80,40);
+		exit.setBounds(1050, 550, 80, 40);
 		exit.setBorder(null);
 		exit.setFocusable(false);
 		exit.setFont(new Font("Tahoma",Font.BOLD,25));
-		exit.setBackground(Color.LIGHT_GRAY);
-		exit.setOpaque(true);
+		exit.setForeground(Color.WHITE);
+		exit.setForeground(Color.WHITE);
+		exit.setBackground(new Color(0, 0, 0, 80));
+		exit.setOpaque(false);
 		exit.addActionListener(this);
 		
 		save.setBounds(290, 210, 80, 40);
 		save.setBorder(null);
 		save.setFocusable(false);
 		save.setFont(new Font("Tahoma",Font.BOLD,25));
-		save.setBackground(Color.LIGHT_GRAY);
+		save.setForeground(Color.WHITE);
+		save.setBackground(new Color(0, 0, 0, 80));
 		save.setOpaque(true);
 		save.addActionListener(this);
 		
-		new1.setBounds(22, 235, 67, 39);
+		new1.setBounds(22, 450, 67, 39);
 		new1.setBorder(null);
 		new1.setFocusable(false);
 		new1.setFont(new Font("Tahoma",Font.BOLD,25));
-		new1.setBackground(Color.LIGHT_GRAY);
-		new1.setOpaque(true);
+		new1.setForeground(Color.WHITE);
+		new1.setBackground(new Color(0, 0, 0, 80));
+		new1.setOpaque(false);
 		new1.addActionListener(this);
 		
-		panel.setToolTipText("Car ID:");
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search:", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
-		panel.setLocation(10, 326);
-		panel.setSize(249, 46);
-		panel.setLayout(null);
+		tablex.setBackground(new Color(0, 0, 0, 80));
+		tablex.setForeground(Color.WHITE);
+		tablex.setOpaque(false);
 		
-		label.setEnabled(true);
+		scrollPane.setBounds(22, 11, 1142, 213);
+		scrollPane.setViewportView(tablex);
+		scrollPane.setBackground(new Color(0, 0, 0, 80));
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
 		
-		getContentPane().add(new1);
-		getContentPane().add(panel);
 		text.setBounds(22, 21, 173, 20);
 		text.setEditable(false);
-		panel.add(text);
+		text.setOpaque(false);
 		
 		chckBox.setBounds(210, 18, 21, 23);
 		chckBox.addActionListener(this);
+		chckBox.setOpaque(false);
 		
+		panel.setBounds(22, 500, 249, 46);
+		panel.setToolTipText("Car ID:");
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search:", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
+		panel.setLayout(null);
+		panel.add(text);
 		panel.add(chckBox);
-		getContentPane().add(label);
-		getContentPane().add(exit);
-		getContentPane().add(delete);
-		getContentPane().add(load);
+		panel.setBackground(new Color(0, 0, 0, 80));
+		panel.setOpaque(false);
 		
-		scrollPane.setBounds(22, 11, 682, 213);
-		getContentPane().add(scrollPane);
-		scrollPane.setViewportView(tablex);
+		userSide.setBounds(0, 0, 1186, 638);
+		userSide.setPreferredSize(new Dimension(1200, 675));
+		userSide.setLayout(null);
+		userSide.setBackground(new Color(0, 0, 0, 80));
+		//userSide.settr
+		userSide.setVisible(true);
+		
+		graphicsPanel = new myGraphicsPanel();
+		Thread thread2 = new Thread(graphicsPanel);
+		thread2.setPriority(1);
+		thread2.start();
+		
+		graphicsPanel.setBounds(0, 0, 1186, 638);
+		userSide.add(FoFrame.new1);
+		userSide.add(FoFrame.delete);
+		userSide.add(FoFrame.load);
+		userSide.add(FoFrame.exit);
+		userSide.add(FoFrame.scrollPane);
+		userSide.add(FoFrame.panel);
+		getContentPane().setLayout(null);
+		getContentPane().add(userSide);
+		getContentPane().add(graphicsPanel);
+		//this.setLayeredPane(userSide);
+		
+		
 		this.setVisible(true);
-		
 		
 		colorChange();
 	}
@@ -191,13 +219,13 @@ public class FoFrame extends JFrame implements ActionListener{
 			carAge = new JTextField("Car Age");
 			carAge.setBounds(20, 220, 200, 30);
 			
-			newFrame.getContentPane().add(carName);
-			newFrame.getContentPane().add(carBrand);
-			newFrame.getContentPane().add(carOwner);
-			newFrame.getContentPane().add(carValue);
-			newFrame.getContentPane().add(carAge);
-			newFrame.getContentPane().add(save);
-			newFrame.setVisible(true);
+			userSide.add(carName);
+			userSide.add(carBrand);
+			userSide.add(carOwner);
+			userSide.add(carValue);
+			userSide.add(carAge);
+			userSide.add(save);
+		
 		}
 		else if (e.getSource() == save) {
 			
@@ -246,6 +274,10 @@ public class FoFrame extends JFrame implements ActionListener{
 			try {
 				System.out.println("olvas");
 				DataBase.CarBeolvasas();
+				tablex.setBackground(new Color(0, 0, 0, 80));
+				tablex.setForeground(Color.WHITE);
+				tablex.setOpaque(false);
+				this.add(graphicsPanel);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -257,6 +289,9 @@ public class FoFrame extends JFrame implements ActionListener{
 					
 					model.addRow(DataBase.search(text.getText()));
 					tablex.setModel(model);
+					tablex.setBackground(new Color(0, 0, 0, 80));
+					tablex.setForeground(Color.WHITE);
+					tablex.setOpaque(false);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
