@@ -7,12 +7,9 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.sql.rowset.serial.SQLOutputImpl;
 import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.Timer;
-
-import javafx.scene.media.MediaPlayer;
 	
 	public class myGraphicsPanel extends JLayeredPane implements ActionListener,Runnable{
 
@@ -21,6 +18,8 @@ import javafx.scene.media.MediaPlayer;
 			static int whatFrame = 1;
 			static myGraphicsPanel myGPanel;
 			static boolean firstRound = true;
+			static int time = 1;
+			static int ney = 0;
 			
 			myGraphicsPanel() {
 				
@@ -33,27 +32,8 @@ import javafx.scene.media.MediaPlayer;
 					
 				
 			}
-			
+			@Override
 			public void paint(Graphics g) {
-				
-				if (whatFrame == 36) {
-					
-					whatFrame = 1;
-					
-				}
-				
-				int fullTime = (int) musicClass.media.getDuration().toSeconds();
-				int playTime = (int) musicClass.mediaPlayer.getCurrentTime().toSeconds();
-				
-				if (fullTime == playTime && fullTime >= 50) {
-					
-					
-					musicClass.nextMedia();
-					
-				}
-					
-				//System.out.println(fullTime);
-				//System.out.println(playTime);
 				
 				Graphics2D g2D = (Graphics2D) g;
 				
@@ -62,37 +42,95 @@ import javafx.scene.media.MediaPlayer;
 					frame = new ImageIcon(actualFrame).getImage();
 					
 					g2D.drawImage(frame, 0, 0, null);
-					
-					
-					whatFrame++;
 				
 					/*System.out.println("még fut");
 					System.out.println(whatFrame);
 					System.out.println(actualFrame);*/
+				
+				
 			}
 			
 			
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
+				//System.out.println(firstRound);
+				/*System.out.println("\n**************");
+				System.out.println(time);
+				System.out.println(whatFrame);*/
+				
+				if (e.getSource() == timer) {
+					if (ney < 100) {
+						
+						ney++;
+			
+						
+					}
+					
 				if (firstRound == true && whatFrame == 36) {
-					timer.setDelay(60);
+					timer.setDelay(10);
 					//timer.setDelay(60);
 					
 					firstRound = false;
+					
+					new musicClass().initialize();
+					musicClass.playMedia();
 				}
 				
-				if (e.getSource() == timer) {
+				if (whatFrame == 36) {
 					
-					if (whatFrame == 36) {
+					whatFrame = 1;
+					
+				}
+		
+					if (firstRound == false && time > 6) {
 						
-						whatFrame = 1;
+							time = 1;
 						
 					}
+					else if (firstRound == false && time == 6) {
+						
+						whatFrame++;
+						
+					}
+					else if (firstRound == true) {
+						
+						whatFrame++;
+						
+					}
+					
+					if (firstRound == false && time == 6) {
+					
+						repaint();
+						
+					}
+					else if (firstRound == true) {
+						
+						repaint();
+						
+					}
+					
+				if (firstRound == false ) {
 				
-				repaint();
+				time++;
+				
 				}
+				
+				if (firstRound == false) {
+					
+					int fullTime = (int) musicClass.media.getDuration().toSeconds();
+					int playTime = (int) musicClass.mediaPlayer.getCurrentTime().toSeconds();
+					
+					if (fullTime == playTime && fullTime >= 50) {
+						
+						
+						musicClass.nextMedia();
+					}
+					}
+				
+				}
+				
 				
 				
 			}

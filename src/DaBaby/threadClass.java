@@ -2,7 +2,6 @@ package DaBaby;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -11,7 +10,6 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.logging.Level;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -20,10 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.Timer;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -31,17 +28,26 @@ public class threadClass implements Runnable{
 
 	static int x = 1200;
 	static int y = 675;
+	
 	static JTable tablex;
 	static String[] columns = new String[] {"ID","Name","Brand","Owner","Value","Age"};
 	static DefaultTableModel model = new DefaultTableModel(null ,columns);
 	static JScrollPane scrollPane = new JScrollPane();
 	static myGraphicsPanel graphicsPanel;
-	static JButton save = new JButton("Save");
-	static JButton new1 = new JButton("New");
-	static JButton delete = new JButton("Delete");
-	static JButton exit = new JButton("Exit");
-	static JButton load = new JButton("Load");
-	static JButton music = new JButton("Music");
+	static JLayeredPane loading = new JLayeredPane();
+	static JLayeredPane userSide = new JLayeredPane();
+	static Timer timer;
+	
+	static animatedButtons save = new animatedButtons("Save", 560, 270, 80, 40);
+	static animatedButtons new1 = new animatedButtons("New", 22, 450, 80, 40);
+	static animatedButtons delete = new animatedButtons("Delete", 1020, 234, 110, 40);
+	static animatedButtons exit = new animatedButtons("Exit", 1050, 550, 80, 40);
+	static animatedButtons load = new animatedButtons("Load", 920, 234, 80, 40);
+	static animatedButtons music = new animatedButtons("Music", 1030, 500, 100, 40);
+	
+	static animatedButtons musicBack = new animatedButtons("Back", 1030, 500, 100, 40);
+	static animatedButtons new1Back = new animatedButtons("Back", 22, 450, 80, 40);
+	
 	 
 	public static void beolvas(String[] row) {
 		
@@ -54,6 +60,9 @@ public class threadClass implements Runnable{
 	
 }
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public void run() {
 		
@@ -63,7 +72,6 @@ public class threadClass implements Runnable{
 class FoFrame extends JFrame implements ActionListener{
 	
 	 static JCheckBox chckBox = new JCheckBox("");
-	 static JLayeredPane userSide = new JLayeredPane();
 	static JPanel panel = new JPanel();
 	JTextField text = new JTextField();
 	JTextField 	carName = new JTextField("Car Name");
@@ -78,7 +86,7 @@ class FoFrame extends JFrame implements ActionListener{
 		this.setTitle("Car information");
 		this.setSize(x,y);
 		this.setLocationRelativeTo(null);
-		this.setBackground(Color.white);
+		this.setBackground(Color.black);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setResizable(false);
 		this.setFocusable(false);
@@ -120,60 +128,15 @@ class FoFrame extends JFrame implements ActionListener{
 		carAge.setOpaque(false);
 		carAge.setForeground(Color.white);
 		
-		delete.setBounds(1050, 234, 100, 40);
-		delete.setBorder(null);
-		delete.setFocusable(false);
-		delete.setFont(new Font("Tahoma",Font.BOLD,25));
-		delete.setForeground(Color.WHITE);
-		delete.setBackground(new Color(0, 0, 0, 80));
-		delete.setOpaque(false);
-		delete.addActionListener(this);
-		
-		load.setBounds(950, 234, 80, 40);
-		load.setBorder(null);
-		load.setFocusable(false);
-		load.setFont(new Font("Tahoma",Font.BOLD,25));
-		load.setForeground(Color.WHITE);
-		load.setBackground(new Color(0, 0, 0, 80));
-		load.setOpaque(false);
-		load.addActionListener(this);
-		
-		exit.setBounds(1050, 550, 80, 40);
-		exit.setBorder(null);
-		exit.setFocusable(false);
-		exit.setFont(new Font("Tahoma",Font.BOLD,25));
-		exit.setForeground(Color.WHITE);
-		exit.setForeground(Color.WHITE);
-		exit.setBackground(new Color(0, 0, 0, 80));
-		exit.setOpaque(false);
-		exit.addActionListener(this);
-		
-		save.setBounds(560, 270, 80, 40);
-		save.setBorder(null);
-		save.setFocusable(false);
-		save.setFont(new Font("Tahoma",Font.BOLD,25));
-		save.setForeground(Color.WHITE);
-		save.setBackground(new Color(0, 0, 0, 80));
-		save.setOpaque(false);
-		save.addActionListener(this);
-		
-		new1.setBounds(22, 450, 67, 40);
-		new1.setBorder(null);
-		new1.setFocusable(false);
-		new1.setFont(new Font("Tahoma",Font.BOLD,25));
-		new1.setForeground(Color.WHITE);
-		new1.setBackground(new Color(0, 0, 0, 80));
-		new1.setOpaque(false);
 		new1.addActionListener(this);
-		
-		music.setBounds(1050, 500, 100, 40);
-		music.setBorder(null);
-		music.setFocusable(false);
-		music.setFont(new Font("Tahoma",Font.BOLD,25));
-		music.setForeground(Color.WHITE);
-		music.setBackground(new Color(0, 0, 0, 80));
-		music.setOpaque(false);
+		save.addActionListener(this);
+		delete.addActionListener(this);
+		exit.addActionListener(this);
+		load.addActionListener(this);
 		music.addActionListener(this);
+		new1Back.addActionListener(this);
+		musicBack.addActionListener(this);
+		
 		
 		tablex.setBackground(new Color(0, 0, 0, 80));
 		tablex.setForeground(Color.WHITE);
@@ -203,18 +166,15 @@ class FoFrame extends JFrame implements ActionListener{
 		panel.setBackground(new Color(0, 0, 0, 80));
 		panel.setOpaque(false);
 		
-		//userSide.add(new animatedButtons());
-		
 		userSide.setBounds(0, 0, 1186, 638);
 		userSide.setPreferredSize(new Dimension(x, y));
 		userSide.setLayout(null);
 		userSide.setBackground(new Color(0, 0, 0, 80));
-		//userSide.settr
 		userSide.setVisible(true);
 		
 		graphicsPanel = new myGraphicsPanel();
 		
-		graphicsPanel.setBounds(0, 0, 1186, 638);
+		graphicsPanel.setBounds(0, 0, 1200, 675);
 		userSide.add(new1);
 		userSide.add(delete);
 		userSide.add(load);
@@ -223,22 +183,36 @@ class FoFrame extends JFrame implements ActionListener{
 		userSide.add(scrollPane);
 		userSide.add(FoFrame.panel);
 		getContentPane().setLayout(null);
+		
+		loading.setBackground(Color.black);
+		loading.setLayout(null);
+		loading.setLocation(0, 0);
+		loading.setPreferredSize(new Dimension(1200, 675));
+		
+		//getContentPane().add(loading);
 		getContentPane().add(userSide);
 		getContentPane().add(graphicsPanel);
-		//this.setLayeredPane(userSide);
-		
-		new musicClass().initialize();
-		musicClass.playMedia();
 		
 		this.setVisible(true);
 		
+		timer = new Timer(1600, this);
+		timer.setRepeats(false);
+		timer.start();
 	}
 	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if (e.getSource() == exit) {
+	if (e.getSource() == timer && myGraphicsPanel.ney == 100)
+	{
+	
+		//this.remove(loading);
+		//this.validate();
+		
+	}
+	
+	if (e.getSource() == exit) {
 			
 			Object[] kerdes = {"Igen","Nem"};
 			
@@ -257,27 +231,12 @@ class FoFrame extends JFrame implements ActionListener{
 				
 				userSide.remove(musicClass.pane);
 				music.setText("Music");
+				userSide.remove(musicBack);
+				userSide.add(music);
 				
 			}
 			
-			if (new1.getText() == "Back") {
-				
-				userSide.remove(carName);
-				userSide.remove(carBrand);
-				userSide.remove(carOwner);
-				userSide.remove(carValue);
-				userSide.remove(carAge);
-				carName.setVisible(false);
-				carBrand.setVisible(false);
-				carOwner.setVisible(false);
-				carValue.setVisible(false);
-				carAge.setVisible(false);
-				userSide.remove(save);
-				new1.setSize(67, 40);
-				new1.setText("New");
-				
-			}
-			else {
+			if (new1.getText() == "New") {
 			
 			userSide.add(carName);
 			userSide.add(carBrand);
@@ -292,6 +251,9 @@ class FoFrame extends JFrame implements ActionListener{
 			userSide.add(save);
 			new1.setSize(100, 40);
 			new1.setText("Back");
+			userSide.remove(new1);
+			userSide.add(new1Back);
+			
 		
 			}
 		}
@@ -321,7 +283,7 @@ class FoFrame extends JFrame implements ActionListener{
 				tablex.setBackground(new Color(0, 0, 0, 80));
 				tablex.setForeground(Color.WHITE);
 				tablex.setOpaque(false);
-				this.add(graphicsPanel);
+				getContentPane().add(graphicsPanel);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -348,7 +310,7 @@ class FoFrame extends JFrame implements ActionListener{
 				tablex.setBackground(new Color(0, 0, 0, 80));
 				tablex.setForeground(Color.WHITE);
 				tablex.setOpaque(false);
-				this.add(graphicsPanel);
+				getContentPane().add(graphicsPanel);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -388,6 +350,9 @@ class FoFrame extends JFrame implements ActionListener{
 				model = new DefaultTableModel(null, columns);
 				try {
 					DataBase.CarBeolvasas();
+					tablex.setBackground(new Color(0, 0, 0, 80));
+					tablex.setForeground(Color.WHITE);
+					tablex.setOpaque(false);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -422,8 +387,10 @@ class FoFrame extends JFrame implements ActionListener{
 				carValue.setVisible(false);
 				carAge.setVisible(false);
 				userSide.remove(save);
-				new1.setSize(67, 40);
+				new1.setSize(80, 40);
 				new1.setText("New");
+				userSide.remove(new1Back);
+				userSide.add(new1);
 				
 			}
 			
@@ -432,18 +399,39 @@ class FoFrame extends JFrame implements ActionListener{
 			musicClass.musicPanelBuilder();
 			userSide.add(musicClass.pane);
 			music.setText("Back");
+			userSide.remove(music);
+			userSide.add(musicBack);
 			
 		
 			}
-			else {
-				
-				userSide.remove(musicClass.pane);
-				music.setText("Music");
-				
-			}
-		
 		
 	}
+		else if (e.getSource() == new1Back) {
+			
+			userSide.remove(carName);
+			userSide.remove(carBrand);
+			userSide.remove(carOwner);
+			userSide.remove(carValue);
+			userSide.remove(carAge);
+			carName.setVisible(false);
+			carBrand.setVisible(false);
+			carOwner.setVisible(false);
+			carValue.setVisible(false);
+			carAge.setVisible(false);
+			new1.setText("New");
+			userSide.remove(save);
+			userSide.remove(new1Back);
+			userSide.add(new1);
+			
+		}
+		else if (e.getSource() == musicBack) {
+			
+			userSide.remove(musicClass.pane);
+			music.setText("Music");
+			userSide.remove(musicBack);
+			userSide.add(music);
+			
+		}
 		
 	}
 	
