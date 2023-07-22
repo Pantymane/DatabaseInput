@@ -20,7 +20,7 @@ import javafx.util.Duration;
 
 public class musicClass {
 
-	public static JButton playButton, pauseButton, resetButton, previousButton, nextButton;
+	
 	
 	public static JPanel pane;
 	public static JLabel songlabel;
@@ -82,74 +82,41 @@ public class musicClass {
 	public static void musicPanelBuilder() {
 		
 		pane = new JPanel();
-		pane.setBounds(425, 250, 350, 250);
+		pane.setBounds(350, 250, 500, 250);
+		pane.setLayout(null);
 		pane.setBackground(new Color(0, 0, 0, 80));
 		pane.setOpaque(false);
 		
-		playButton = new JButton();
-		playButton.setBounds(0, 0, 80, 40);
-		playButton.setFocusable(false);
-		playButton.setBackground(new Color(0, 0, 0, 80));
-		playButton.setOpaque(false);
-		playButton.setForeground(Color.white);
-		playButton.setFont(new Font("Tahoma", Font.BOLD, 30));
-		playButton.setText("Play");
+		 animatedButtons playButton = new animatedButtons("Play", 200, 80, 100, 50);
+		 animatedButtons pauseButton = new animatedButtons("Pause", 140, 150, 100, 50);
+		 animatedButtons resetButton = new animatedButtons("Reset", 260, 150, 100, 50);
+		 animatedButtons previousButton = new animatedButtons("Prev", 80, 80, 100, 50);
+		 animatedButtons nextButton = new animatedButtons("Next", 320, 80, 100, 50);
+		
 		playButton.addActionListener((e) -> {
 			
 			playMedia();
 			
 		});
 		
-		pauseButton = new JButton();
-		pauseButton.setBounds(80, 0, 80, 40);
-		pauseButton.setFocusable(false);
-		pauseButton.setBackground(new Color(0, 0, 0, 80));
-		pauseButton.setOpaque(false);
-		pauseButton.setForeground(Color.white);
-		pauseButton.setFont(new Font("Tahoma", Font.BOLD, 30));
-		pauseButton.setText("Pause");
 		pauseButton.addActionListener((e) -> {
 			
 			stopMedia();
 			
 		});
 		
-		nextButton = new JButton();
-		nextButton.setBounds(160, 0, 80, 40);
-		nextButton.setFocusable(false);
-		nextButton.setBackground(new Color(0, 0, 0, 80));
-		nextButton.setOpaque(false);
-		nextButton.setForeground(Color.white);
-		nextButton.setFont(new Font("Tahoma", Font.BOLD, 30));
-		nextButton.setText("Next");
 		nextButton.addActionListener((e) -> {
 			
 			nextMedia();
 			
 		});
 		
-		resetButton = new JButton();
-		resetButton.setBounds(260, 0, 80, 40);
-		resetButton.setFocusable(false);
-		resetButton.setBackground(new Color(0, 0, 0, 80));
-		resetButton.setOpaque(false);
-		resetButton.setForeground(Color.white);
-		resetButton.setFont(new Font("Tahoma", Font.BOLD, 30));
-		resetButton.setText("Reset");
 		resetButton.addActionListener((e) -> {
 			
 			resetMedia();
 			
 		});	
 		
-		previousButton = new JButton();
-		previousButton.setBounds(0, 100, 80, 40);
-		previousButton.setFocusable(false);
-		previousButton.setBackground(new Color(0, 0, 0, 80));
-		previousButton.setOpaque(false);
-		previousButton.setForeground(Color.white);
-		previousButton.setFont(new Font("Tahoma", Font.BOLD, 30));
-		previousButton.setText("Prev");
 		previousButton.addActionListener((e) -> {
 			
 			previousMedia();
@@ -157,7 +124,7 @@ public class musicClass {
 		});
 		
 		songlabel = new JLabel();
-		songlabel.setBounds(80, 100, 350, 80);
+		songlabel.setBounds(110, 20, 350, 50);
 		songlabel.setFocusable(false);
 		songlabel.setEnabled(false);
 		songlabel.setBackground(new Color(0, 0, 0, 80));
@@ -180,18 +147,7 @@ public class musicClass {
 	
 	public static void playMedia() {
 		
-		if (media.getDuration() == media.getDuration()) {
-			
-			mediaPlayer.seek(Duration.seconds(0.0));
 			mediaPlayer.play();
-		}
-		else {
-			
-			mediaPlayer.play();
-			
-		}
-		
-		
 		
 		}
 	
